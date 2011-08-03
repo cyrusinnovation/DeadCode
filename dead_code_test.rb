@@ -13,10 +13,10 @@ class DeadCodeTest < Test::Unit::TestCase
     assert results.include?("JacobLikesPoop")
   end
 
-  def test_correct_files_are_found
-    results = @spectre.find_files "test_data"
+  def test_correct_class_files_are_found
+    results = @spectre.find_class_files "test_data"
     assert results.include?("test_data/classes.rb")
-    assert !results.include?("ignore_me.js")
+    assert !results.include?("test_data/ignore_me.js")
   end
 
   def test_usages_are_found
@@ -25,4 +25,12 @@ class DeadCodeTest < Test::Unit::TestCase
     assert @spectre.classes.include?("JacobLikesPoop")
     assert !@spectre.classes.include?("ImAClass")
   end
+
+  def test_correct_usage_files_are_found
+    results = @spectre.find_usage_files "test_data"
+    assert results.include?("test_data/classes.rb")
+    assert results.include?("test_data/remember_me.html.erb")
+    assert !results.include?("test_data/ignore_me.js")
+  end
+
 end
