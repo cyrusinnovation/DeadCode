@@ -1,6 +1,7 @@
 require 'find'
 
 class DeadCode
+  attr_reader :classes
 
   def initialize
     @classes = {}
@@ -23,6 +24,18 @@ class DeadCode
       files << path if path =~ /\.rb$/
     end
     files
+  end
+
+  def find_unused_classes file_path
+    used_classes = []
+    @classes.keys.each do |klass|
+      usages = File.open(file_path, 'r').grep(/\b#{klass}\./)
+      used_classes << klass unless usages.empty?
+    end
+  
+    used_classes.uniq.each do |klass|
+      @classes.delete klass
+    end
   end
 
     #NOT DONE
