@@ -1,10 +1,10 @@
-require 'dead_code'
+require 'dead_classes'
 require 'test/unit'
 
-class DeadCodeTest < Test::Unit::TestCase
+class DeadClassesTest < Test::Unit::TestCase
 
   def setup
-    @spectre = DeadCode.new
+    @spectre = DeadClasses.new
   end
   
   def test_rails_class_files_are_found

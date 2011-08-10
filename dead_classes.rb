@@ -1,10 +1,10 @@
 require 'find'
 
-class DeadCode
+class DeadClasses
   attr_reader :classes
 
   def self.find_dead_code root_path
-    corpse = DeadCode.new
+    corpse = DeadClasses.new
     files = corpse.find_class_files root_path
     files.each do |file|
       corpse.find_all_classes file
@@ -21,7 +21,7 @@ class DeadCode
   end
 
   def self.find_dead_rails_code root_path
-    corpse = DeadCode.new
+    corpse = DeadClasses.new
     files = corpse.find_rails_class_files root_path
     files.each do |file|
       corpse.find_all_classes file
