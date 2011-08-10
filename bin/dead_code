@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'dead_code'
+
+DeadCode.find_dead_code ARGV[0]
