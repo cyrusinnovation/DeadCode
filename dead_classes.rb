@@ -1,16 +1,17 @@
 require 'find'
+require "dead_file_finder"
 
 class DeadClasses
   attr_reader :classes
 
   def self.find_dead_code root_path
     corpse = DeadClasses.new
-    files = corpse.find_class_files root_path
+    files = DeadFileFinder.find_class_files root_path
     files.each do |file|
       corpse.find_all_classes file
     end
 
-    files = corpse.find_usage_files root_path
+    files = DeadFileFinder.find_usage_files root_path
     files.each do |file|
       corpse.find_unused_classes file
     end
@@ -22,12 +23,12 @@ class DeadClasses
 
   def self.find_dead_rails_code root_path
     corpse = DeadClasses.new
-    files = corpse.find_rails_class_files root_path
+    files = DeadFileFinder.find_rails_class_files root_path
     files.each do |file|
       corpse.find_all_classes file
     end
 
-    files = corpse.find_rails_usage_files root_path
+    files = DeadFileFinder.find_rails_usage_files root_path
     files.each do |file|
       corpse.find_unused_classes file
     end
@@ -64,32 +65,4 @@ class DeadClasses
     end
   end
 
-  def find_class_files root_path
-    files = []
-    Find.find(root_path) do |path|
-      files << path if path =~ /\.rb$/
-    end
-    files
-  end
-
-  def find_usage_files root_path
-    files = []
-    Find.find(root_path) do |path|
-      files << path if path =~ /\.(rb|rake|erb|yml|yaml)$/
-    end
-    files
-  end
-
-  def find_rails_class_files rails_root
-    files = find_class_files "#{rails_root}/app/"
-    files += find_class_files "#{rails_root}/lib/"
-  end
-
-  def find_rails_usage_files rails_root
-    files = []
-    ["app", "lib", "config", "db", "script"].each do |folder|
-      files += find_usage_files "#{rails_root}/#{folder}/"
-    end
-    files
-  end
 end
