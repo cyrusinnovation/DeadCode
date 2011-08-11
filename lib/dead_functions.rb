@@ -7,14 +7,14 @@ class DeadFunctions
   def self.find_dead_code root_path, use_rails
     corpse = DeadFunctions.new
     if use_rails
-      class_files = DeadFileFinder.find_rails_class_files root_path
+      function_files = DeadFileFinder.find_rails_class_files root_path
       usage_files = DeadFileFinder.find_rails_usage_files root_path
     else
-      class_files = DeadFileFinder.find_class_files root_path
+      function_files = DeadFileFinder.find_class_files root_path
       usage_files = DeadFileFinder.find_usage_files root_path
     end
 
-    class_files.each do |file|
+    function_files.each do |file|
       corpse.find_all_functions file
     end
 

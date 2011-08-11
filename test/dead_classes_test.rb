@@ -19,4 +19,10 @@ class DeadClassesTest < Test::Unit::TestCase
     assert @spectre.classes.include?("JacobLikesPoop")
     assert !@spectre.classes.include?("ImAClass")
   end
+  
+  def test_find_subclass_usages
+    @spectre.find_all_classes "test_data/classes.rb"
+    @spectre.find_unused_classes "test_data/classes.rb"
+    assert @spectre.classes.include?("IHaveBeenSubbed")
+  end
 end

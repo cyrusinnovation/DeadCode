@@ -1,6 +1,9 @@
 class ImAClass
 end
 
-class JacobLikesPoop < ImAClass
+class IHaveBeenSubbed
+end
+
+class JacobLikesPoop < IHaveBeenSubbed
   ImAClass.new
 end
