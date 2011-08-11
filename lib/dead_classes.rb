@@ -46,7 +46,8 @@ class DeadClasses
     used_classes = []
     @classes.keys.each do |klass|
       usages = File.open(file_path, 'r').grep(/\b#{klass}\./)
-      usages += File.open(file_path, 'r').grep(/<\b#{klass}/)
+      usages += File.open(file_path, 'r').grep(/<\s*#{klass}/)
+      usages += File.open(file_path, 'r').grep(/#{klass}::/)
       used_classes << klass unless usages.empty?
     end
 

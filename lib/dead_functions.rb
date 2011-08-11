@@ -34,7 +34,9 @@ class DeadFunctions
   def find_all_functions file_path
     File.open(file_path, 'r').each_with_index do |line, line_number|
       if line =~ /def\s+(self\.)?(\w+)/
-        @functions[$2] = "#{file_path}:#{line_number}"
+        match = $2
+        next if file_path =~ /controller\.rb/
+        @functions[match] = "#{file_path}:#{line_number}"
       end
     end
     @functions.keys

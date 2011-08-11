@@ -7,7 +7,7 @@ require File.join(File.dirname(__FILE__), '/../lib/dead_classes')
 options = {}
 
 optparse = OptionParser.new do |opts|
-  opts.banner = "Usage: dead_code [options] root_path"
+  opts.banner = "Usage: dead_code [options] [root_path]\nroot path will default to '.'"
   
   opts.on('-c', '--class', "Find only unused classes") do
     options[:class] = true
@@ -28,5 +28,9 @@ optparse = OptionParser.new do |opts|
 end
 optparse.parse!
 
-DeadClasses.find_dead_code(ARGV[0], options[:rails]) unless options[:function]
-DeadFunctions.find_dead_code(ARGV[0], options[:rails])unless options[:class]
+path = ARGV[0] || "."
+
+puts "========== CLASSES =========="
+DeadClasses.find_dead_code(path, options[:rails]) unless options[:function]
+puts "========= FUNCTIONS ========="
+DeadFunctions.find_dead_code(path, options[:rails])unless options[:class]
