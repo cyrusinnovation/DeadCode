@@ -4,15 +4,21 @@ require File.join(File.dirname(__FILE__), "/dead_file_finder")
 class DeadFunctions
   attr_reader :functions
 
-  def self.find_dead_code root_path
+  def self.find_dead_code root_path, use_rails
     corpse = DeadFunctions.new
-    files = DeadFileFinder.find_class_files root_path
-    files.each do |file|
+    if use_rails
+      class_files = DeadFileFinder.find_rails_class_files root_path
+      usage_files = DeadFileFinder.find_rails_usage_files root_path
+    else
+      class_files = DeadFileFinder.find_class_files root_path
+      usage_files = DeadFileFinder.find_usage_files root_path
+    end
+
+    class_files.each do |file|
       corpse.find_all_functions file
     end
 
-    files = DeadFileFinder.find_usage_files root_path
-    files.each do |file|
+    usage_files.each do |file|
       corpse.find_unused_functions file
     end
 

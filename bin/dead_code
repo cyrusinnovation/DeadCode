@@ -26,13 +26,7 @@ optparse = OptionParser.new do |opts|
     exit
   end
 end
-
 optparse.parse!
 
-if options[:rails]
-  DeadClasses.find_dead_rails_code ARGV[0] unless options[:function]
-  DeadFunctions.find_dead_rails_code ARGV[0] unless options[:class]
-else
-  DeadClasses.find_dead_code ARGV[0] unless options[:function]
-  DeadFunctions.find_dead_code ARGV[0] unless options[:class]
-end
+DeadClasses.find_dead_code(ARGV[0], options[:rails]) unless options[:function]
+DeadFunctions.find_dead_code(ARGV[0], options[:rails])unless options[:class]

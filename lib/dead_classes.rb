@@ -4,32 +4,21 @@ require File.join(File.dirname(__FILE__), "/dead_file_finder")
 class DeadClasses
   attr_reader :classes
 
-  def self.find_dead_code root_path
+  def self.find_dead_code root_path, use_rails
     corpse = DeadClasses.new
-    files = DeadFileFinder.find_class_files root_path
-    files.each do |file|
+    if use_rails
+      class_files = DeadFileFinder.find_rails_class_files root_path
+      usage_files = DeadFileFinder.find_rails_usage_files root_path
+    else
+      class_files = DeadFileFinder.find_class_files root_path
+      usage_files = DeadFileFinder.find_usage_files root_path
+    end
+
+    class_files.each do |file|
       corpse.find_all_classes file
     end
 
-    files = DeadFileFinder.find_usage_files root_path
-    files.each do |file|
-      corpse.find_unused_classes file
-    end
-
-    corpse.classes.each do |klass, usage|
-      puts "#{klass} unused at #{usage}"
-    end
-  end
-
-  def self.find_dead_rails_code root_path
-    corpse = DeadClasses.new
-    files = DeadFileFinder.find_rails_class_files root_path
-    files.each do |file|
-      corpse.find_all_classes file
-    end
-
-    files = DeadFileFinder.find_rails_usage_files root_path
-    files.each do |file|
+    usage_files.each do |file|
       corpse.find_unused_classes file
     end
 
