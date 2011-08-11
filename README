@@ -1,7 +1,6 @@
 This app finds unused classes and functions in your ruby source tree.  There are 3 binaries all take in as the first and only argument the root of the tree.  The rails versions avoid some directories, such as vendor, when looking for definitions and usages.
 
 As of Aug, 11 2011, things that need to be done
-better (read single) command line interface
 make this a gem
 remove duplication in deadclasses and dead functions
 make a rails version of deadfunctions
