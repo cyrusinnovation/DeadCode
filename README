@@ -3,5 +3,4 @@ This app finds unused classes and functions in your ruby source tree.  There are
 As of Aug, 11 2011, things that need to be done
 make this a gem
 remove duplication in deadclasses and dead functions
-make a rails version of deadfunctions
 handle functions that have the same name as other functions
