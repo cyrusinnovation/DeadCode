@@ -1,5 +1,5 @@
 require 'find'
-require "dead_file_finder"
+require File.join(File.dirname(__FILE__), "/dead_file_finder")
 
 class DeadFunctions
   attr_reader :functions

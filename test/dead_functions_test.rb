@@ -1,5 +1,5 @@
 require "test/unit"
-require "dead_functions"
+require File.join(File.dirname(__FILE__), "/../lib/dead_functions")
 
 class DeadFunctionsTest < Test::Unit::TestCase
 

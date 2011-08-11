@@ -1,5 +1,5 @@
 require "test/unit"
-require "dead_file_finder"
+require File.join(File.dirname(__FILE__), "/../lib/dead_file_finder")
 
 class DeadFileFinderTest < Test::Unit::TestCase
 

@@ -1,4 +1,4 @@
-require 'dead_classes'
+require File.join(File.dirname(__FILE__), '/../lib/dead_classes')
 require 'test/unit'
 
 class DeadClassesTest < Test::Unit::TestCase

@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'dead_functions'
+require File.join(File.dirname(__FILE__), '/../lib/dead_functions')
 
 DeadFunctions.find_dead_code ARGV[0]
