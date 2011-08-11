@@ -17,7 +17,7 @@ class DeadFunctionsTest < Test::Unit::TestCase
     @wraith.find_all_functions "test_data/functions.rb"
     @wraith.find_unused_functions "test_data/functions.rb"
     
-    assert !@wraith.functions.include?("here_is_a_func")
-    assert @wraith.functions.include?("im_in_a_class")
+    assert @wraith.functions.include?("here_is_a_func")
+    assert !@wraith.functions.include?("im_in_a_class")
   end
 end

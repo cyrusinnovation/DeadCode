@@ -13,7 +13,7 @@ class DeadClassesTest < Test::Unit::TestCase
     assert results.include?("JacobLikesPoop")
   end
 
-  def test_usages_are_found
+  def test_find_unused_classes
     @spectre.find_all_classes "test_data/classes.rb"
     @spectre.find_unused_classes "test_data/classes.rb"
     assert @spectre.classes.include?("JacobLikesPoop")

@@ -1,5 +1,25 @@
+require 'find'
+require "dead_file_finder"
+
 class DeadFunctions
   attr_reader :functions
+
+  def self.find_dead_code root_path
+    corpse = DeadFunctions.new
+    files = DeadFileFinder.find_class_files root_path
+    files.each do |file|
+      corpse.find_all_functions file
+    end
+
+    files = DeadFileFinder.find_usage_files root_path
+    files.each do |file|
+      corpse.find_unused_functions file
+    end
+
+    corpse.functions.each do |klass, usage|
+      puts "#{klass} unused at #{usage}"
+    end
+  end
 
   def initialize
     @functions = {}
@@ -16,9 +36,12 @@ class DeadFunctions
 
   def find_unused_functions file_path
     used_functions = []
-    @functions.keys.each do |functions|
-      usages = File.open(file_path, 'r').grep(/[\s\.]#{functions}[ ($]/)
-      used_functions << functions unless usages.empty?
+    @functions.keys.each do |function|
+      usages = File.open(file_path, 'r').grep(/[\.\s]#{function}[\s(]/) do |line|
+        line unless line.include?("def")
+      end
+      usages.compact!
+      used_functions << function unless usages.empty?
     end
 
     used_functions.uniq.each do |functions|
