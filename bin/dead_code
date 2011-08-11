@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require File.join(File.dirname(__FILE__), '/../lib/dead_functions')
+require File.join(File.dirname(__FILE__), '/../lib/dead_classes')
+
+options = {}
+
+optparse = OptionParser.new do |opts|
+  opts.banner = "Usage: dead_code [options] root_path"
+  
+  opts.on('-c', '--class', "Find only unused classes") do
+    options[:class] = true
+  end
+  
+  opts.on('-f', '--function', "Find only unused functions") do
+    options[:function] = true
+  end
+  
+  opts.on('-r', '--rails', "Treat the project as a rails project") do
+    options[:rails] = true
+  end
+  
+  opts.on('-h', '--help', "Displays this screen") do
+    puts opts
+    exit
+  end
+end
+
+optparse.parse!
+
+if options[:rails]
+  DeadClasses.find_dead_rails_code ARGV[0] unless options[:function]
+  DeadFunctions.find_dead_rails_code ARGV[0] unless options[:class]
+else
+  DeadClasses.find_dead_code ARGV[0] unless options[:function]
+  DeadFunctions.find_dead_code ARGV[0] unless options[:class]
+end
