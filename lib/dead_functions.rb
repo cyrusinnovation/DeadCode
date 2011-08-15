@@ -33,7 +33,7 @@ class DeadFunctions
 
   def find_all_functions file_path
     File.open(file_path, 'r').each_with_index do |line, line_number|
-      if line =~ /def\s+(self\.)?(\w+)/
+      if line =~ /def\s+(self\.)?(\w+\??)/
         match = $2
         next if file_path =~ /controller\.rb/
         @functions[match] = "#{file_path}:#{line_number}"
@@ -45,7 +45,8 @@ class DeadFunctions
   def find_unused_functions file_path
     used_functions = []
     @functions.keys.each do |function|
-      usages = File.open(file_path, 'r').grep(/[\.\s]#{function}[\s(]/) do |line|
+      escaped_function = function.gsub '?', '\?'
+      usages = File.open(file_path, 'r').grep(/(^|[.\s])#{escaped_function}([.\s(,]|$)/) do |line|
         line unless line.include?("def")
       end
       usages.compact!

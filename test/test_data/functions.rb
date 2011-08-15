@@ -1,10 +1,10 @@
 def here_is_a_func
 end
 
-def this_will_be_used
+def test_no_space_around_call
 end
 
-this_will_be_used
+test_no_space_around_call
 
 class WorthlessClass
   def self.im_in_a_class
@@ -12,4 +12,20 @@ class WorthlessClass
 
   self.im_in_a_class
 
+  def self.test_chaining
+    "string"
+  end
+
+  def self.test_question_mark?
+  end
+
+  def self.test_trailing_comma
+  end
+
 end
+
+
+WorthlessClass.test_chaining.length
+WorthlessClass.test_question_mark?
+
+[WorthlessClass.test_trailing_comma, 1]
