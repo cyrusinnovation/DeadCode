@@ -12,6 +12,11 @@ class DeadFunctionsTest < Test::Unit::TestCase
     assert results.include?("here_is_a_func")
     assert results.include?("im_in_a_class")
   end
+
+  def test_does_not_find_commented_functions
+    results = @wraith.find_all_functions "test_data/functions.rb"
+    assert !results.include?("ignore_me_i_am_a_comment")
+  end
   
   def test_find_unused_functions
     @wraith.find_all_functions "test_data/functions.rb"

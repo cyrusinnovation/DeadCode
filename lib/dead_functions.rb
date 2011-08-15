@@ -36,6 +36,7 @@ class DeadFunctions
       if line =~ /def\s+(self\.)?(\w+\??)/
         match = $2
         next if file_path =~ /controller\.rb/
+        next if commented_out_function line
         @functions[match] = "#{file_path}:#{line_number}"
       end
     end
@@ -64,6 +65,13 @@ class DeadFunctions
   def remove_known_used_functions
     @functions.delete 'initialize'
     @functions.delete 'method_missing'
+  end
+
+  def commented_out_function line
+    def_at = line.index "def "
+    comment_at = line.index "#"
+    return true if comment_at && comment_at < def_at
+    false
   end
 
 end

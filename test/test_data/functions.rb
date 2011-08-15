@@ -39,3 +39,5 @@ WorthlessClass.test_chaining.length
 WorthlessClass.test_question_mark?
 
 [WorthlessClass.test_trailing_comma, 1]
+
+# def ignore_me_i_am_a_comment
