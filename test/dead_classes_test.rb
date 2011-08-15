@@ -16,13 +16,13 @@ class DeadClassesTest < Test::Unit::TestCase
   def test_find_unused_classes
     @spectre.find_all_classes "test_data/classes.rb"
     @spectre.find_unused_classes "test_data/classes.rb"
-    assert @spectre.classes.include?("JacobLikesPoop")
-    assert !@spectre.classes.include?("ImAClass")
+    assert @spectre.unused_classes.include?("JacobLikesPoop")
+    assert !@spectre.unused_classes.include?("ImAClass")
   end
   
   def test_find_subclass_usages
     @spectre.find_all_classes "test_data/classes.rb"
     @spectre.find_unused_classes "test_data/classes.rb"
-    assert @spectre.classes.include?("IHaveBeenSubbed")
+    assert !@spectre.unused_classes.include?("IHaveBeenSubbed")
   end
 end

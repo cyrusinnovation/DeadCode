@@ -2,7 +2,7 @@ require 'find'
 require File.join(File.dirname(__FILE__), "/dead_file_finder")
 
 class DeadFunctions
-  attr_reader :functions
+  attr_reader :unused_functions
 
   def self.find_dead_code root_path, use_rails
     corpse = DeadFunctions.new
@@ -22,13 +22,13 @@ class DeadFunctions
       corpse.find_unused_functions file
     end
 
-    corpse.functions.each do |klass, usage|
+    corpse.unused_functions.each do |klass, usage|
       puts "#{klass} unused at #{usage}"
     end
   end
 
   def initialize
-    @functions = {}
+    @unused_functions = {}
   end
 
   def find_all_functions file_path
@@ -37,15 +37,15 @@ class DeadFunctions
         match = $2
         next if file_path =~ /controller\.rb/
         next if commented_out_function line
-        @functions[match] = "#{file_path}:#{line_number}"
+        @unused_functions[match] = "#{file_path}:#{line_number}"
       end
     end
-    @functions.keys
+    @unused_functions.keys
   end
 
   def find_unused_functions file_path
     used_functions = []
-    @functions.keys.each do |function|
+    @unused_functions.keys.each do |function|
       escaped_function = function.gsub '?', '\?'
       usages = File.open(file_path, 'r').grep(/(?:^|\W+)#{escaped_function}(?:\W+|$)/) do |line|
         line unless line =~ method_definition_regex
@@ -55,7 +55,7 @@ class DeadFunctions
     end
 
     used_functions.uniq.each do |functions|
-      @functions.delete functions
+      @unused_functions.delete functions
     end
 
     remove_known_used_functions
@@ -63,8 +63,8 @@ class DeadFunctions
 
   private
   def remove_known_used_functions
-    @functions.delete 'initialize'
-    @functions.delete 'method_missing'
+    @unused_functions.delete 'initialize'
+    @unused_functions.delete 'method_missing'
   end
 
   def commented_out_function line

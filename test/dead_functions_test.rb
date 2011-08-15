@@ -22,8 +22,8 @@ class DeadFunctionsTest < Test::Unit::TestCase
     @wraith.find_all_functions "test_data/functions.rb"
     @wraith.find_unused_functions "test_data/functions.rb"
     
-    assert @wraith.functions.include?("here_is_a_func")
-    assert !@wraith.functions.include?("im_in_a_class")
+    assert @wraith.unused_functions.include?("here_is_a_func")
+    assert !@wraith.unused_functions.include?("im_in_a_class")
   end
 
   def test_finds_chained_methods
@@ -59,10 +59,10 @@ class DeadFunctionsTest < Test::Unit::TestCase
 
   def assert_function_found_and_used function
     @wraith.find_all_functions "test_data/functions.rb"
-    assert @wraith.functions.include?(function)
+    assert @wraith.unused_functions.include?(function)
 
     @wraith.find_unused_functions "test_data/functions.rb"
-    assert !@wraith.functions.include?(function)
+    assert !@wraith.unused_functions.include?(function)
 
   end
 

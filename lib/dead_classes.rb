@@ -2,7 +2,7 @@ require 'find'
 require File.join(File.dirname(__FILE__), "/dead_file_finder")
 
 class DeadClasses
-  attr_reader :classes
+  attr_reader :unused_classes
 
   def self.find_dead_code root_path, use_rails
     corpse = DeadClasses.new
@@ -22,13 +22,13 @@ class DeadClasses
       corpse.find_unused_classes file
     end
 
-    corpse.classes.each do |klass, usage|
+    corpse.unused_classes.each do |klass, usage|
       puts "#{klass} unused at #{usage}"
     end
   end
 
   def initialize
-    @classes = {}
+    @unused_classes = {}
   end
 
   def find_all_classes file_path
@@ -36,15 +36,15 @@ class DeadClasses
       if line =~ /^class\s+(\w+)/
         match = $1
         next if match =~ /Controller$/
-        @classes[match] = "#{file_path}:#{line_number}"
+        @unused_classes[match] = "#{file_path}:#{line_number}"
       end
     end
-    @classes.keys
+    @unused_classes.keys
   end
 
   def find_unused_classes file_path
     used_classes = []
-    @classes.keys.each do |klass|
+    @unused_classes.keys.each do |klass|
       usages = File.open(file_path, 'r').grep(/\b#{klass}\./)
       usages += File.open(file_path, 'r').grep(/<\s*#{klass}/)
       usages += File.open(file_path, 'r').grep(/#{klass}::/)
@@ -52,7 +52,7 @@ class DeadClasses
     end
 
     used_classes.uniq.each do |klass|
-      @classes.delete klass
+      @unused_classes.delete klass
     end
   end
 
