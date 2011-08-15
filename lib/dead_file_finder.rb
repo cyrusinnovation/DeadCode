@@ -1,3 +1,5 @@
+require 'find'
+
 class DeadFileFinder
   def self.find_class_files root_path, include_tests = false
     find_files_by_regex root_path, /\.rb$/, include_tests
