@@ -33,7 +33,7 @@ class DeadFunctions
 
   def find_all_functions file_path
     File.open(file_path, 'r').each_with_index do |line, line_number|
-      if line =~ /def\s+(self\.)?(\w+\??)/
+      if line =~ method_definition_regex
         match = $2
         next if file_path =~ /controller\.rb/
         next if commented_out_function line
@@ -48,7 +48,7 @@ class DeadFunctions
     @functions.keys.each do |function|
       escaped_function = function.gsub '?', '\?'
       usages = File.open(file_path, 'r').grep(/(?:^|\W+)#{escaped_function}(?:\W+|$)/) do |line|
-        line unless line.include?("def")
+        line unless line =~ method_definition_regex
       end
       usages.compact!
       used_functions << function unless usages.empty?
@@ -72,6 +72,10 @@ class DeadFunctions
     comment_at = line.index "#"
     return true if comment_at && comment_at < def_at
     false
+  end
+
+  def method_definition_regex
+    /def\s+(self\.)?(\w+\??)/
   end
 
 end

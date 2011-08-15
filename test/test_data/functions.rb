@@ -31,6 +31,9 @@ class WorthlessClass
   def self.test_trailing_square_bracket
   end
 
+  def self.test_arg_usage_contains_def arg
+  end
+
   [test_trailing_square_bracket]
 
 end
@@ -41,3 +44,5 @@ WorthlessClass.test_question_mark?
 [WorthlessClass.test_trailing_comma, 1]
 
 # def ignore_me_i_am_a_comment
+
+WorthlessClass.test_arg_usage_contains_def "def"

@@ -51,6 +51,10 @@ class DeadFunctionsTest < Test::Unit::TestCase
     assert_function_found_and_used "method_missing"
   end
 
+  def test_usage_with_def_in_the_line
+    assert_function_found_and_used "test_arg_usage_contains_def"
+  end
+
   private
 
   def assert_function_found_and_used function
