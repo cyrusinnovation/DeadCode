@@ -7,6 +7,12 @@ end
 test_no_space_around_call
 
 class WorthlessClass
+  def initialize
+  end
+
+  def method_missing
+  end
+
   def self.im_in_a_class
   end
 
@@ -22,8 +28,12 @@ class WorthlessClass
   def self.test_trailing_comma
   end
 
-end
+  def self.test_trailing_square_bracket
+  end
 
+  [test_trailing_square_bracket]
+
+end
 
 WorthlessClass.test_chaining.length
 WorthlessClass.test_question_mark?

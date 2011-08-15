@@ -46,7 +46,7 @@ class DeadFunctions
     used_functions = []
     @functions.keys.each do |function|
       escaped_function = function.gsub '?', '\?'
-      usages = File.open(file_path, 'r').grep(/(^|[.\s])#{escaped_function}([.\s(,]|$)/) do |line|
+      usages = File.open(file_path, 'r').grep(/(?:^|\W+)#{escaped_function}(?:\W+|$)/) do |line|
         line unless line.include?("def")
       end
       usages.compact!
@@ -56,6 +56,14 @@ class DeadFunctions
     used_functions.uniq.each do |functions|
       @functions.delete functions
     end
+
+    remove_known_used_functions
+  end
+
+  private
+  def remove_known_used_functions
+    @functions.delete 'initialize'
+    @functions.delete 'method_missing'
   end
 
 end

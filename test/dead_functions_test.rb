@@ -37,6 +37,15 @@ class DeadFunctionsTest < Test::Unit::TestCase
     assert_function_found_and_used "test_trailing_comma"
   end
 
+  def test_finds_functions_calls_ending_with_square_bracket
+    assert_function_found_and_used "test_trailing_square_bracket"
+  end
+
+  def test_known_used_methods
+    assert_function_found_and_used "initialize"
+    assert_function_found_and_used "method_missing"
+  end
+
   private
 
   def assert_function_found_and_used function
