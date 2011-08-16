@@ -3,12 +3,9 @@ This app finds unused classes and functions in your ruby source tree.  There is 
 As of Aug, 11 2011, things that need to be done
 add a config file
 use rake routes to find controllers
-search for symbol usage
 modules
-remove duplication from dead classes and dead functions
 correctly find usages of functions of the same name
 make this a gem
-for rails projects, :class_name => 'X' is a usage
 
 Known Issues:
 "#"; def method; end;  thinks method is commented out.

@@ -10,9 +10,10 @@ class DeadClasses < DeadInterface
     "class"
   end
 
-  def is_used? file_path, klass
+  def is_used? file_path, klass, use_rails
     !(File.open(file_path, 'r').grep(/\W#{klass}\./).empty? &&
     File.open(file_path, 'r').grep(/<\s*#{klass}/).empty? &&
-    File.open(file_path, 'r').grep(/#{klass}::/).empty?)
+    File.open(file_path, 'r').grep(/#{klass}::/).empty? &&
+    (!use_rails && File.open(file_path, 'r').grep(/:class_name\s*=>\s*['"]#{klass}['"]/).empty?)) 
   end
 end

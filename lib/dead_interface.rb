@@ -22,7 +22,7 @@ class DeadInterface
     end
 
     usage_files.each do |file|
-      corpse.find_unused file
+      corpse.find_unused file, use_rails
     end
 
     corpse.unused.each do |definition, usage|
@@ -43,10 +43,10 @@ class DeadInterface
     @unused.keys
   end
 
-  def find_unused file_path
+  def find_unused file_path, use_rails=false
     used = []
     @unused.keys.each do |definition|
-      used << definition if is_used? file_path, definition
+      used << definition if is_used? file_path, definition, use_rails
     end
 
     used.each do |definition|
