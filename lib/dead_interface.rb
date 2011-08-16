@@ -18,7 +18,7 @@ class DeadInterface
     end
 
     definition_files.each do |file|
-      corpse.find_all_definitions file
+      corpse.find_all_definitions file, use_rails
     end
 
     usage_files.each do |file|
@@ -30,11 +30,11 @@ class DeadInterface
     end
   end
 
-  def find_all_definitions file_path
+  def find_all_definitions file_path, use_rails=false
     File.open(file_path, 'r').each_with_index do |line, line_number|
       match = match_definition line
       unless match.nil?
-        next if file_path =~ /controller\.rb/
+        next if use_rails && file_path =~ /controller\.rb/
         next if commented_out_definition line
         @unused[match] = "#{file_path}:#{line_number}"
       end
