@@ -17,6 +17,10 @@ optparse = OptionParser.new do |opts|
     options[:function] = true
   end
   
+  opts.on('-m', '--module', "Find only unused modules") do
+    options[:module] = true
+  end
+  
   opts.on('-r', '--rails', "Treat the project as a rails project") do
     options[:rails] = true
   end
@@ -31,6 +35,8 @@ optparse.parse!
 path = ARGV[0] || "."
 
 puts "========== CLASSES =========="
-DeadClasses.find_dead_code(path, options[:rails]) unless options[:function]
+DeadClasses.find_dead_code(path, options[:rails]) unless options[:function] || options[:module]
 puts "========= FUNCTIONS ========="
-DeadFunctions.find_dead_code(path, options[:rails])unless options[:class]
+DeadFunctions.find_dead_code(path, options[:rails])unless options[:class] || options[:module]
+puts "========== MODULES =========="
+DeadModules.find_dead_code(path, options[:rails])unless options[:class] || options[:function]

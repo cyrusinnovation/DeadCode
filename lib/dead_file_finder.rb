@@ -1,7 +1,7 @@
 require 'find'
 
 class DeadFileFinder
-  def self.find_class_files root_path, include_tests = false
+  def self.find_definition_files root_path, include_tests = false
     find_files_by_regex root_path, /\.rb$/, include_tests
   end
 
@@ -19,9 +19,9 @@ class DeadFileFinder
     files
   end
 
-  def self.find_rails_class_files rails_root, include_tests = false
-    files = find_class_files "#{rails_root}/app/", include_tests
-    files += find_class_files "#{rails_root}/lib/", include_tests
+  def self.find_rails_definition_files rails_root, include_tests = false
+    files = find_definition_files "#{rails_root}/app/", include_tests
+    files += find_definition_files "#{rails_root}/lib/", include_tests
   end
 
   def self.find_rails_usage_files rails_root, include_tests = false

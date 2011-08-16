@@ -10,10 +10,10 @@ class DeadInterface
   def self.find_dead_code root_path, use_rails
     corpse = self.new
     if use_rails
-      definition_files = DeadFileFinder.find_rails_class_files root_path
+      definition_files = DeadFileFinder.find_rails_definition_files root_path
       usage_files = DeadFileFinder.find_rails_usage_files root_path
     else
-      definition_files = DeadFileFinder.find_class_files root_path
+      definition_files = DeadFileFinder.find_definition_files root_path
       usage_files = DeadFileFinder.find_usage_files root_path
     end
 
