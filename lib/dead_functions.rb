@@ -6,12 +6,12 @@ class DeadFunctions < DeadInterface
     line =~ method_definition_regex ? $2 : nil
   end
 
-  def find_usages file_path, function
+  def is_used? file_path, function
     escaped_function = function.gsub '?', '\?'
     usages = File.open(file_path, 'r').grep(/(?:^|\W+)#{escaped_function}(?:\W+|$)/) do |line|
-      line unless line =~ method_definition_regex
+      return true unless line =~ method_definition_regex
     end
-    usages.compact!
+    false
   end
 
   def definition_keyword

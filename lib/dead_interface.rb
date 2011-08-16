@@ -46,11 +46,10 @@ class DeadInterface
   def find_unused file_path
     used = []
     @unused.keys.each do |definition|
-      usages = find_usages file_path, definition
-      used << definition unless usages.empty?
+      used << definition if is_used? file_path, definition
     end
 
-    used.uniq.each do |definition|
+    used.each do |definition|
       @unused.delete definition
     end
   end

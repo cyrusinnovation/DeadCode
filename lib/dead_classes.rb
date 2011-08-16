@@ -10,10 +10,9 @@ class DeadClasses < DeadInterface
     "class"
   end
 
-  def find_usages file_path, klass
-    usages = File.open(file_path, 'r').grep(/\b#{klass}\./)
-    usages += File.open(file_path, 'r').grep(/<\s*#{klass}/)
-    usages += File.open(file_path, 'r').grep(/#{klass}::/)
-    usages
+  def is_used? file_path, klass
+    !(File.open(file_path, 'r').grep(/\W#{klass}\./).empty? &&
+    File.open(file_path, 'r').grep(/<\s*#{klass}/).empty? &&
+    File.open(file_path, 'r').grep(/#{klass}::/).empty?)
   end
 end
