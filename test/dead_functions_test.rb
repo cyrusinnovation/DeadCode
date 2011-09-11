@@ -56,6 +56,14 @@ class DeadFunctionsTest < Test::Unit::TestCase
     assert_function_found_and_used "test_arg_usage_contains_def"
   end
 
+  def test_a_commented_out_method_call_does_not_count
+    @wraith.find_all_definitions "test_data/commented_out_usage.rb"
+    p @wraith.unused
+    assert @wraith.unused.include?("tryme")
+    assert @wraith.unused.include?("this_piggy_went_to_the_bank")
+
+  end
+
   private
 
   def assert_function_found_and_used function
