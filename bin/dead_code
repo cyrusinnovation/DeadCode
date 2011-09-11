@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'optparse'
-require File.join(File.dirname(__FILE__), '/../lib/dead_functions')
-require File.join(File.dirname(__FILE__), '/../lib/dead_classes')
+require 'dead_code'
 
 options = {}
 
