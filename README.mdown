@@ -1,6 +1,7 @@
 This app finds unused classes and functions in your ruby source tree.  There is a binary that takes in as the first and only argument the root of the tree.  The rails flag avoids some directories, such as vendor, when looking for definitions and usages.
 
 As of Sept 12, 2011, things that need to be done:
+
 - add a config file
 - use rake routes to find controllers
 - modules
@@ -8,9 +9,10 @@ As of Sept 12, 2011, things that need to be done:
 
 
 Known Issues:
+
 - "#"; def method; end;  thinks method is commented out.
 - commented out usages still count as usages
 
 Thought:
-Can we use the 'ancestors' method to travel up an object's tree and figure out where a method comes from?
-This would probably help reducing potential name conflicts, if two methods have the same name.
+
+Can we use the 'ancestors' method to travel up an object's tree and figure out where a method comes from? This would probably help reducing potential name conflicts, if two methods have the same name.
